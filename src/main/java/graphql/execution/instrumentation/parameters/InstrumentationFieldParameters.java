@@ -1,0 +1,38 @@
+package graphql.execution.instrumentation.parameters;
+
+import graphql.PublicApi;
+import graphql.execution.ExecutionContext;
+import graphql.execution.ExecutionStepInfo;
+import graphql.execution.instrumentation.Instrumentation;
+import graphql.schema.GraphQLFieldDefinition;
+import org.jspecify.annotations.NullMarked;
+
+import java.util.function.Supplier;
+
+import static graphql.Assert.assertNotNull;
+
+/**
+ * Parameters sent to {@link Instrumentation} methods
+ */
+@NullMarked
+@PublicApi
+public class InstrumentationFieldParameters {
+    private final ExecutionContext executionContext;
+    private final Supplier<ExecutionStepInfo> executionStepInfo;
+    public InstrumentationFieldParameters(ExecutionContext executionContext, Supplier<ExecutionStepInfo> executionStepInfo) {
+        this.executionContext = executionContext;
+        this.executionStepInfo = executionStepInfo;
+    }
+    public ExecutionContext getExecutionContext() {
+        return executionContext;
+    }
+
+    public GraphQLFieldDefinition getField() {
+        return assertNotNull(executionStepInfo.get().getFieldDefinition(), "fieldDefinition must not be null");
+    }
+
+    public ExecutionStepInfo getExecutionStepInfo() {
+        return executionStepInfo.get();
+    }
+
+}

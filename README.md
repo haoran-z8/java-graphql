@@ -1,1 +1,1 @@
-"# java-graphql" 
+# GraphQL Java
